@@ -14,14 +14,20 @@ import java.util.Collection;
 
 public class TTableView extends TableView {
     private ITable _table;
+    private Collection<IRow> _rows;
 
     public TTableView(ITable table){
         _table = table;
+        _rows = new ArrayList<>();
 
-        //this.setEditable(true);
         this.getColumns().addAll(getDataColumns(_table));
-        //this.getColumns().addAll(_table.getColumns());
         this.setVisible(true);
+    }
+
+    private void load(TTableData data) {
+        for(IColumn column: data.getColumns()){
+            ;
+        }
     }
 
     private Collection<TableColumn> getDataColumns(ITable table) {
@@ -29,21 +35,28 @@ public class TTableView extends TableView {
 
         for(IColumn icolumn: table.getColumns()){
             TableColumn column = new TableColumn();
-            //column.setCellFactory(TextFieldTableCell.<ObservableList<StringProperty>>forTableColumn());
+
             column.setCellValueFactory(new PropertyValueFactory(icolumn.getKey()));
             column.setId(icolumn.getKey());
             column.setGraphic(new Label(icolumn.getCaption()));
             column.setVisible(true);
-//            column.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent>() {
-//                @Override
-//                public void handle(TableColumn.CellEditEvent event) {
-//
-//                }
-//            });
-
             columns.add(column);
         }
 
         return columns;
+    }
+
+    /**
+     * Возвращает новую строку данных заданной таблицы
+     * @return Новая строка данных таблицы
+     */
+    public IRow getNewRow() {
+        IRow row = new TRow();
+        for(IColumn column: _table.getColumns()){
+            row.set(column.getKey(), "");
+        }
+
+        _rows.add(row);
+        return row;
     }
 }

@@ -3,12 +3,15 @@ package TTableView;
 import java.util.Collection;
 
 public interface ITable {
-    public String getName();
+    String getName();
     ITable setName(String name);
 
-    public String getCaption();
+    String getCaption();
     ITable setCaption(String caption);
 
-    public Collection<IColumn> getColumns();
+    Collection<IColumn> getColumns();
     ITable setColumns(Collection<IColumn> columns);
+
+    Collection<IRow> getRows();
+    void addNewRow();
 }
