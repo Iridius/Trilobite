@@ -48,6 +48,7 @@ public class TData implements ITable, IObservable {
         }
 
         _rows.add(row);
+        notifyObserver();
         return row;
     }
 
@@ -61,6 +62,7 @@ public class TData implements ITable, IObservable {
     public void notifyObserver() {
         for(IObserver observer: _observers){
             observer.setColumns(_columns);
+            observer.loadData(_rows);
         }
     }
 }

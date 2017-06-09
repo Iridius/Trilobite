@@ -2,8 +2,14 @@ package TTableView;
 
 import Observer.IObservable;
 import Observer.IObserver;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.util.Callback;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +38,42 @@ public class TTableView extends TableView implements IObserver {
 
     @Override
     public void loadData(Collection<IRow> rows) {
+        this.getItems().addAll(rows);
 
+        //this.getItems().clear();
+        //for(IRow row: rows) {
+        //    //this.getItems().add(row);
+        //}
+        ObservableList data = FXCollections.observableArrayList();
+
+        for(int i=0; i < this.getColumns().size(); i++){
+            TableColumn column = (TableColumn)this.getColumns().get(i);
+            final int j = i;
+
+            if(column != null) {
+                column.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<TRow, String>, ObservableValue<String>>() {
+                    public ObservableValue<String> call(TableColumn.CellDataFeatures<TRow, String> param) {
+                        if (param.getValue().get("key") != null) {
+                            return new SimpleStringProperty(param.getValue().get("key").toString());
+                        }
+
+                        return new SimpleStringProperty("");
+                    }
+                });
+            }
+
+            for(IRow r: rows){
+                ObservableList<String> row = FXCollections.observableArrayList();
+                Object[] rs = rows.toArray();
+
+                for(int k=0; k <= rs.length-1; k++){
+                    row.add(rs[k].toString());
+                }
+                data.add(row);
+            }
+
+            this.setItems(data);
+        }
     }
 
     /**
