@@ -1,8 +1,11 @@
 package TTableView;
 
+import TDictionary.IDictionary;
+
 public class TColumnData implements IColumn {
     private String _key;
     private String _caption;
+    private IDictionary _dictionary;
 
     public TColumnData(){
         _key = "";
@@ -28,6 +31,17 @@ public class TColumnData implements IColumn {
     @Override
     public IColumn setCaption(String caption) {
         _caption = caption;
+        return this;
+    }
+
+    @Override
+    public IDictionary getDataSet() {
+        return _dictionary;
+    }
+
+    @Override
+    public IColumn setDataSet(IDictionary data) {
+        _dictionary = data;
         return this;
     }
 }

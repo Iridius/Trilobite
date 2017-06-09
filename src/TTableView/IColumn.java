@@ -1,9 +1,14 @@
 package TTableView;
 
-public interface IColumn {
-    public String getKey();
-    public IColumn setKey(String key);
+import TDictionary.IDictionary;
 
-    public String getCaption();
-    public IColumn setCaption(String caption);
+public interface IColumn {
+    String getKey();
+    IColumn setKey(String key);
+
+    String getCaption();
+    IColumn setCaption(String caption);
+
+    IDictionary getDataSet();
+    IColumn setDataSet(IDictionary data);
 }
